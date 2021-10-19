@@ -1,13 +1,16 @@
 {
-  "name": "nodejs-complete-guide",
+  "name": "sec-4",
   "version": "1.0.0",
   "description": "Complete Node.js Guide",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "start-server": "node app.js"
   },
   "author": "Logentheran",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
 }
