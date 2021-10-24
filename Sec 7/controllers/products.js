@@ -14,11 +14,12 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  const products = Product.fecthAll();
-  res.render('shop', {
-    prods: products,
-    pageTitle: 'Shop',
-    path: '/',
+  Product.fecthAll((products) => {
+    res.render('shop', {
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/',
+    });
   });
 };
 
