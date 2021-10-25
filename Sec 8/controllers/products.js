@@ -1,9 +1,12 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  res.render('add-product', {
+  res.render('admin/add-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
+    formsCSS: true,
+    productCSS: true,
+    activeAddProduct: true
   });
 };
 
@@ -14,15 +17,14 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fecthAll((products) => {
-    res.render('shop', {
+  Product.fetchAll(products => {
+    res.render('shop/product-list', {
       prods: products,
       pageTitle: 'Shop',
       path: '/',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true
     });
   });
-};
-
-exports.notFound = (req, res, next) => {
-  res.status(404).render('404', { pageTitle: 'Page not found', path: '' });
 };
