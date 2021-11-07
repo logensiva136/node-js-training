@@ -25,6 +25,48 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.methods.addToCart = function (product) {
+  //product is single item that we choose
+  //gets index number where the item in my cart item
+  const cartProductIndex = this.cart.items.findIndex((cp) => {
+    return cp.productId.toString() === product._id.toString();
+  });
+  let newQuantity = 1;
+  //saving all cart items in one array
+  const updatedCartItems = [...this.cart.items];
+  //checks index number / exist in our cart item list
+  if (cartProductIndex >= 0) {
+    // newQuantity(1) + existing quantity
+    newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+    //update quantity only in on initially saved array
+    updatedCartItems[cartProductIndex].quantity = newQuantity;
+  } else {
+    //else create new obj on db with productId & quantity
+    updatedCartItems.push({
+      productId: product._id,
+      quantity: newQuantity,
+    });
+  }
+  const updatedCart = {
+    items: updatedCartItems,
+  };
+  this.cart = updatedCart;
+  return this.save();
+};
+
+userSchema.methods.removeFromCart = function (prodId) {
+  const updatedCartItems = this.cart.items.filter((item) => {
+    return item.productId.toString() !== prodId.toString();
+  });
+  this.cart.items = updatedCartItems;
+  return this.save();
+};
+
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
+  return this.save();
+};
+
 module.exports = mongoose.model("user", userSchema);
 
 // const mongodb = require("mongodb");
